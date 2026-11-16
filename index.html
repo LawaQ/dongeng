@@ -1,7 +1,390 @@
 <!doctype html>
 <html lang="id">
 <head>
+<meta charset="utf-8"><!doctype html>
+<html lang="id">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dongeng Nusantara</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Lora:ital,wght@0,500;0,600;1,500&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* ==== VARIABEL WARNA ==== */
+:root {
+  --bg-wood: #2a1e18;
+  --book-cover: #5e3523;
+  --book-edge: #e8dec3;
+  --paper: #fdfbf2;
+  --ink: #3b2e2a;
+  --gold: #c99b3b;
+  --blue-box: #2c5f7c;
+  --orange-box: #b85f25;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Nunito", sans-serif;
+  background-color: var(--bg-wood);
+  background-image: 
+    radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, transparent 60%),
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 2px, transparent 2px, transparent 8px);
+  height: 100vh; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 15px;
+}
+
+/* ==== BUKU FISIK (COVER & HALAMAN) ==== */
+.book-container {
+  position: relative;
+  width: 100%; max-width: 1000px;
+  height: calc(100vh - 80px); max-height: 800px;
+  background: var(--book-cover);
+  border-radius: 8px 16px 16px 8px;
+  box-shadow: 
+    -15px 20px 40px rgba(0,0,0,0.7),
+    inset 4px 0 10px rgba(0,0,0,0.5),
+    inset -2px 0 5px rgba(255,255,255,0.1);
+  display: flex;
+  padding: 8px;
+  perspective: 1500px; /* Untuk efek 3D */
+}
+
+/* Punggung Buku (Kiri) */
+.book-container::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 25px;
+  background: linear-gradient(to right, #3a1c0d, #5e3523 40%, #3a1c0d);
+  border-radius: 8px 0 0 8px; z-index: 10;
+  box-shadow: inset -2px 0 5px rgba(0,0,0,0.6);
+}
+
+/* Pita Pembatas (Bookmark) */
+.bookmark {
+  position: absolute; top: 0; right: 40px; width: 35px; height: 60px;
+  background: #a8322e; z-index: 5;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+}
+
+/* Kertas Halaman Buku */
+.pages {
+  flex: 1; background: var(--paper);
+  border-radius: 4px 12px 12px 4px;
+  position: relative; z-index: 2;
+  box-shadow: inset 10px 0 20px -10px rgba(0,0,0,0.15);
+  display: flex; flex-direction: column;
+  padding: 20px clamp(20px, 4vw, 50px);
+  overflow: hidden;
+}
+
+/* Bingkai Ornamen Halaman */
+.pages::after {
+  content: ""; position: absolute; top: 15px; left: 15px; right: 15px; bottom: 15px;
+  border: 2px solid rgba(201, 155, 59, 0.3); border-radius: 8px; pointer-events: none;
+}
+
+/* Konten Dinamis */
+.content-wrapper {
+  position: relative; z-index: 3; height: 100%;
+  display: flex; flex-direction: column;
+  animation: pageFlip 0.6s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+  transform-origin: left center;
+}
+
+@keyframes pageFlip {
+  0% { opacity: 0; transform: rotateY(30deg) translateX(20px); }
+  100% { opacity: 1; transform: rotateY(0deg) translateX(0); }
+}
+
+/* ==== TIPOGRAFI & ISI ==== */
+h1, h2 { font-family: "Cinzel", serif; color: #2c1e16; text-align: center; }
+h1 { font-size: clamp(24px, 4vw, 36px); margin-top: 10px; color: var(--gold); text-shadow: 1px 1px 2px #000; letter-spacing: 2px;}
+h2 { font-size: clamp(20px, 3vw, 28px); margin-bottom: 10px; border-bottom: 2px solid rgba(201,155,59,0.4); padding-bottom: 10px;}
+
+h3 { font-family: "Nunito", sans-serif; font-size: clamp(14px, 2vh, 18px); color: var(--orange-box); text-align: center; margin: 15px 0 8px; text-transform: uppercase; letter-spacing: 1px;}
+
+.cerita {
+  font-family: "Lora", serif; font-size: clamp(15px, 2.2vh, 19px); line-height: 1.7;
+  color: var(--ink); text-align: justify; margin-bottom: 15px; flex-shrink: 0;
+}
+/* Drop Cap (Huruf Pertama Besar) */
+.cerita::first-letter {
+  font-family: "Cinzel", serif; font-size: 3.5em; float: left;
+  line-height: 0.8; margin-right: 8px; margin-top: 5px; color: var(--gold);
+}
+
+/* ==== BAGAN PERBUATAN & AKIBAT (Gaya Prasasti) ==== */
+.box-container { display: flex; gap: 10px; align-items: stretch; margin: 10px 0; }
+.box {
+  flex: 1; border-radius: 8px; padding: 12px 15px; color: #fff;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.2), 0 4px 8px rgba(0,0,0,0.2);
+  display: flex; flex-direction: column; justify-content: center; position: relative;
+}
+.box.blue { background: linear-gradient(135deg, #2c5f7c, #1e4257); border: 2px solid #5a9fbd; }
+.box.orange { background: linear-gradient(135deg, #b85f25, #8c4414); border: 2px solid #e38e52; }
+.box strong { font-family: "Nunito", sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; opacity: 0.8;}
+.box span { font-family: "Lora", serif; font-size: clamp(13px, 1.9vh, 16px); line-height: 1.3; }
+
+.arrow-icon { font-size: 24px; color: var(--gold); display: flex; align-items: center; justify-content: center;}
+
+/* ==== DAFTAR ISI ==== */
+.toc-list { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; flex: 1; padding-right: 5px; }
+.toc-list::-webkit-scrollbar { width: 6px; }
+.toc-list::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+.toc-item {
+  display: flex; align-items: center; background: transparent;
+  border: none; border-bottom: 1px dashed rgba(0,0,0,0.15); padding: 10px;
+  font-family: "Nunito", sans-serif; font-size: clamp(14px, 2.2vh, 18px);
+  color: var(--ink); cursor: pointer; width: 100%; text-align: left; font-weight: 700; transition: all 0.2s;
+}
+.toc-item:hover { background: rgba(201, 155, 59, 0.1); border-radius: 8px; transform: translateX(5px); }
+.toc-item .emoji { font-size: 24px; margin-right: 15px; }
+.toc-item small { display: block; font-size: 12px; color: #7a6b63; font-weight: 600; font-style: italic; margin-top: 2px;}
+
+/* ==== PILIHAN GANDA & ISIAN ==== */
+.pick-grid { display: flex; flex-direction: column; gap: 8px; }
+.choice {
+  background: #fff; border: 2px solid #dcd3c6; border-radius: 8px;
+  padding: 12px 15px; font-family: "Lora", serif; font-size: clamp(13px, 2vh, 16px);
+  color: var(--ink); text-align: left; cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.choice:hover { border-color: var(--gold); background: #fffcf5; transform: translateY(-2px); }
+.choice.selected { border-color: var(--blue-box); background: #e8f4fa; box-shadow: inset 0 0 0 2px var(--blue-box); }
+.choice.wrong { border-color: #c0392b; background: #fceaea; }
+
+.feedback { font-size: 14px; font-weight: 800; text-align: center; margin-top: 10px; min-height: 20px; }
+.feedback.ok { color: #27ae60; } .feedback.no { color: #c0392b; }
+
+.field { margin-top: 10px; display: flex; flex-direction: column; flex: 1; }
+.field label { font-family: "Nunito", sans-serif; font-size: 12px; font-weight: 800; color: #fff; background: var(--blue-box); padding: 4px 10px; border-radius: 4px 4px 0 0; align-self: flex-start; }
+.field.o label { background: var(--orange-box); }
+.field.n label { background: #777; }
+textarea {
+  width: 100%; flex: 1; border: 2px solid #dcd3c6; border-top: none; border-radius: 0 8px 8px 8px;
+  padding: 10px; font-family: "Lora", serif; font-size: 15px; color: var(--ink);
+  background: #fff; resize: none; outline: none;
+}
+textarea:focus { border-color: var(--gold); }
+
+/* ==== NAVIGASI BAWAH ==== */
+.nav-controls {
+  display: flex; gap: 10px; width: 100%; max-width: 1000px; margin-top: 15px;
+}
+.btn {
+  border: none; border-radius: 8px; background: #e0d7c6; color: #5e3523;
+  padding: 12px 24px; font-family: "Nunito", sans-serif; font-size: 16px; font-weight: 800;
+  cursor: pointer; box-shadow: 0 4px 0 #b8ac97; transition: all 0.1s;
+}
+.btn.primary { background: var(--gold); color: #2c1e16; box-shadow: 0 4px 0 #99742b; flex: 1; }
+.btn:active { transform: translateY(4px); box-shadow: none; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: 0 4px 0 #b8ac97;}
+.btn.primary:disabled { box-shadow: 0 4px 0 #99742b; }
+
+.page-num {
+  background: rgba(0,0,0,0.1); color: #fff; padding: 12px 20px; border-radius: 8px;
+  font-family: "Cinzel", serif; font-weight: 700; letter-spacing: 1px;
+}
+
+/* ==== RESPONSIVE (MOBILE) ==== */
+@media (max-width: 650px) {
+  body { padding: 5px; }
+  .book-container { height: calc(100vh - 70px); padding: 4px; }
+  .book-container::before { width: 15px; }
+  .bookmark { right: 20px; width: 25px; height: 45px; }
+  .pages { padding: 15px 12px; }
+  .pages::after { top: 8px; left: 8px; right: 8px; bottom: 8px; }
+  .box-container { flex-direction: column; gap: 8px; }
+  .arrow-icon { transform: rotate(90deg); margin: -5px 0; }
+  .nav-controls { gap: 5px; }
+  .btn { padding: 10px 15px; font-size: 14px; }
+  .page-num { padding: 10px; font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="book-container">
+  <div class="bookmark"></div>
+  <div class="pages" id="book-pages">
+    <!-- Konten JS masuk ke sini -->
+  </div>
+</div>
+
+<div class="nav-controls">
+  <button class="btn" id="prev">← Sebelumnya</button>
+  <div class="page-num" id="indicator">Daftar Isi</div>
+  <button class="btn primary" id="next">Lanjut →</button>
+</div>
+
+<script src="content.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const state = { screen: 'menu', d: 0, t: 0, answers: {} };
+
+function render() {
+  const b = $('#book-pages');
+  const wrapper = document.createElement('div');
+  wrapper.className = 'content-wrapper';
+
+  if (state.screen === 'menu') wrapper.innerHTML = viewMenu();
+  else if (state.screen === 'tahap') wrapper.innerHTML = viewTahap();
+  else wrapper.innerHTML = viewSelesai();
+
+  b.innerHTML = '';
+  b.appendChild(wrapper);
+  bind();
+  updateNav();
+}
+
+function viewMenu() {
+  return `
+    <h1>Dongeng Nusantara</h1>
+    <h2>Daftar Isi</h2>
+    <p style="text-align:center; font-family:'Lora',serif; font-style:italic; margin-bottom:15px; color:#666;">Pilih dongeng yang ingin kamu baca</p>
+    <div class="toc-list">
+      ${DONGENG.map((d, i) => `
+        <button class="toc-item" data-open="${i}">
+          <span class="emoji">${d.emoji}</span>
+          <span class="title">${d.judul}<small>Pesan: ${d.pesan}</small></span>
+        </button>
+      `).join('')}
+    </div>`;
+}
+
+function viewTahap() {
+  const d = DONGENG[state.d], t = d.tahap[state.t];
+  const key = state.d + '-' + state.t;
+  const a = state.answers[key] || {};
+
+  const bagan = (t.tipe === 'modeling')
+    ? `<div class="box-container">
+         <div class="box blue"><strong>Perbuatan</strong><span>${t.perbuatan}</span></div>
+         <div class="arrow-icon">➜</div>
+         <div class="box orange"><strong>Akibat</strong><span>${t.akibat}</span></div>
+       </div>`
+    : `<div class="box-container">
+         <div class="box blue"><strong>Perbuatan</strong><span>${a.perbuatan || '...'}</span></div>
+         <div class="arrow-icon">➜</div>
+         <div class="box orange"><strong>Akibat</strong><span>${a.akibat || '...'}</span></div>
+       </div>`;
+
+  let interaksi = '';
+  if (t.tipe === 'pilihan') {
+    const benarP = a.perbuatan === t.pilihan.perbuatan[t.jawaban.perbuatan];
+    const benarA = a.akibat === t.pilihan.akibat[t.jawaban.akibat];
+    const lengkap = a.perbuatan && a.akibat;
+    const semuaBenar = benarP && benarA;
+
+    const tombol = (arr, jenis, jawab) => arr.map(p => {
+      const cls = a[jenis] === p ? 'selected' : (a[jenis] && a[jenis] !== arr[jawab] ? 'wrong' : '');
+      return `<button class="choice ${cls}" data-jenis="${jenis}" data-isi="${p}">${p}</button>`;
+    }).join('');
+
+    interaksi = `
+      <h3>1. Pilih Perbuatan Tokoh</h3>
+      <div class="pick-grid">${tombol(t.pilihan.perbuatan, 'perbuatan', t.jawaban.perbuatan)}</div>
+      <h3>2. Pilih Akibatnya</h3>
+      <div class="pick-grid">${tombol(t.pilihan.akibat, 'akibat', t.jawaban.akibat)}</div>
+      <p class="feedback ${lengkap ? (semuaBenar ? 'ok' : 'no') : ''}">
+        ${!lengkap ? '' : semuaBenar ? '✨ Tepat sekali! ✨' : '💡 Belum tepat, ayo coba lagi.'}
+      </p>`;
+  }
+
+  if (t.tipe === 'isian') {
+    interaksi = `
+      <div class="field"><label>PERBUATAN</label>
+        <textarea data-isian="perbuatan" rows="2" placeholder="Apa yang dilakukan tokoh?">${a.perbuatan || ''}</textarea></div>
+      <div class="field o"><label>AKIBAT</label>
+        <textarea data-isian="akibat" rows="2" placeholder="Apa yang terjadi setelahnya?">${a.akibat || ''}</textarea></div>
+      <div class="field n"><label>PESAN DONGENG</label>
+        <textarea data-isian="pesan" rows="2" placeholder="Kita tidak boleh ...">${a.pesan || ''}</textarea></div>`;
+  }
+
+  return `
+    <h2>${d.judul}</h2>
+    <p class="cerita">${t.cerita}</p>
+    ${bagan}
+    ${interaksi}`;
+}
+
+function viewSelesai() {
+  const d = DONGENG[state.d]; const key = state.d + '-3'; const a = state.answers[key] || {};
+  return `
+    <h1 style="margin-top:20px;">Tamat</h1>
+    <h2>${d.judul}</h2>
+    <p style="text-align:center; font-family:'Lora',serif; font-size:18px; margin-bottom:20px;">Kamu telah menyelesaikan dongeng ini.</p>
+    
+    <div class="box-container">
+      <div class="box blue"><strong>Perbuatan</strong><span>${a.perbuatan || '—'}</span></div>
+      <div class="arrow-icon">➜</div>
+      <div class="box orange"><strong>Akibat</strong><span>${a.akibat || '—'}</span></div>
+    </div>
+    
+    <h3>Pesan Moral</h3>
+    <p class="cerita" style="text-align:center; font-style:italic; background:rgba(201,155,59,0.1); padding:15px; border-radius:8px; border-left:none;">"${a.pesan || d.pesan}"</p>
+    
+    <div style="display:flex; justify-content:center; margin-top:20px;">
+      <button class="btn primary" data-menu style="flex:none; padding:12px 30px;">📖 Kembali ke Daftar Isi</button>
+    </div>`;
+}
+
+function bind() {
+  document.querySelectorAll('[data-open]').forEach(el => {
+    el.onclick = () => { state.d = +el.dataset.open; state.t = 0; state.screen = 'tahap'; render(); };
+  });
+  document.querySelectorAll('[data-jenis]').forEach(el => {
+    el.onclick = () => { 
+      const key = state.d + '-' + state.t; state.answers[key] = state.answers[key] || {}; 
+      state.answers[key][el.dataset.jenis] = el.dataset.isi; render(); 
+    };
+  });
+  document.querySelectorAll('[data-isian]').forEach(el => {
+    el.oninput = () => { 
+      const key = state.d + '-' + state.t; state.answers[key] = state.answers[key] || {}; 
+      state.answers[key][el.dataset.isian] = el.value; 
+    };
+  });
+  const menu = $('[data-menu]');
+  if (menu) menu.onclick = () => { state.screen = 'menu'; render(); };
+}
+
+function updateNav() {
+  const prev = $('#prev'), next = $('#next'), ind = $('#indicator');
+  if (state.screen === 'menu') {
+    prev.disabled = true; next.disabled = true; ind.textContent = 'Daftar Isi';
+  } else if (state.screen === 'tahap') {
+    const d = DONGENG[state.d]; prev.disabled = false; next.disabled = false; 
+    ind.textContent = `Hal ${state.t + 1} / ${d.tahap.length}`;
+    next.textContent = state.t === d.tahap.length - 1 ? 'Selesai' : 'Lanjut →';
+  } else {
+    prev.disabled = false; next.disabled = true; ind.textContent = 'Selesai'; next.textContent = 'Lanjut →';
+  }
+}
+
+$('#prev').onclick = () => {
+  if (state.screen === 'tahap') {
+    if (state.t > 0) state.t--; else state.screen = 'menu';
+  } else if (state.screen === 'selesai') {
+    state.screen = 'tahap'; state.t = DONGENG[state.d].tahap.length - 1;
+  }
+  render();
+};
+
+$('#next').onclick = () => {
+  if (state.screen === 'tahap') {
+    const d = DONGENG[state.d];
+    if (state.t < d.tahap.length - 1) state.t++; else state.screen = 'selesai';
+    render();
+  }
+};
+
+render();
+</script>
+</body>
+</html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dongeng Nusantara</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
