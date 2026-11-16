@@ -3,236 +3,239 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dongeng Nusantara — Sebab &amp; Akibat</title>
+<title>Dongeng Nusantara</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--biru:#1475c8;--oranye:#e97816;--krem:#fffdf1;--tinta:#173c58}
-*{box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
-body{
-  margin:0;
-  font-family:"Nunito",system-ui,sans-serif;
-  background:linear-gradient(160deg,#94d9f3,#c9edff 60%,#e8f7d8);
-  background-attachment:fixed;
-  color:var(--tinta);
-  font-size:18px;font-weight:700;
-  display:flex;flex-direction:column;
-  height:100vh;
+:root {
+  --biru: #1e6b9e; --oranye: #d96c1b; --krem: #fdfaf3;
+  --tinta: #2c3e50; --kertas: #fffdf8;
 }
-.wrap{
-  flex:1;min-height:0;
-  max-width:920px;width:100%;
-  margin:0 auto;padding:8px 12px;
-  display:flex;flex-direction:column;
+* { box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+  background: #2b3a42; /* Warna meja kayu gelap */
+  background-image: radial-gradient(circle at center, #3a4d57 0%, #1a252b 100%);
+  color: var(--tinta);
+  display: flex; flex-direction: column;
+  height: 100vh;
+  padding: 15px;
 }
 
-/* ============================================
-   BUKU — UKURAN TETAP, TIDAK BISA DI-SCROLL
-   ============================================ */
-.book{
-  flex:1;min-height:0;
-  overflow:hidden;              /* kunci: tidak ada scroll */
-  background:var(--krem);
-  border-radius:18px;
-  padding:clamp(12px,2.4vh,24px) clamp(16px,3vw,30px);
-  box-shadow:
-    0 8px 26px #16456a22,
-    inset -10px 0 22px -12px #00000020;
-  border:1px solid #e8dfc4;
-  position:relative;
-  display:flex;flex-direction:column;
-}
-/* Efek punggung buku di kiri */
-.book::before{
-  content:"";
-  position:absolute;top:0;left:0;bottom:0;
-  width:8px;
-  background:linear-gradient(to right,#cdbf90,transparent);
-  border-radius:18px 0 0 18px;
-  pointer-events:none;
+/* ==== EFEK BUKU 3D ==== */
+.wrap {
+  flex: 1; min-height: 0;
+  max-width: 960px; width: 100%;
+  margin: 0 auto;
+  perspective: 1500px;
 }
 
-/* ============================================
-   NAVIGASI — SELALU DI BAWAH, UKURAN TETAP
-   ============================================ */
-.nav{
-  display:flex;gap:8px;align-items:center;justify-content:space-between;
-  margin-top:8px;flex-shrink:0;
-}
-.nav button:disabled{opacity:.4;cursor:not-allowed;transform:none}
-#indicator{
-  background:#fff;border-radius:99px;
-  padding:0.8vh 2vw;
-  font-size:clamp(11px,1.6vh,14px);
-  text-align:center;flex:1;min-width:0;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+.book-outer {
+  height: 100%;
+  display: flex; flex-direction: column;
+  background: #6b4c3a; /* Warna sampul buku */
+  border-radius: 12px 24px 24px 12px;
+  box-shadow: 
+    -10px 15px 30px rgba(0,0,0,0.6),
+    inset 4px 0 10px rgba(0,0,0,0.3),
+    inset -2px 0 5px rgba(255,255,255,0.1);
+  position: relative;
+  padding: 6px 6px 6px 20px; /* Ruang untuk punggung buku */
 }
 
-/* ============================================
-   SEMUA TEKS MENYESUAIKAN TINGGI LAYAR (vh)
-   ============================================ */
-h1{font-size:clamp(20px,5vh,36px);margin:0 0 1vh;line-height:1.1;color:#0f3552;text-align:center}
-h2{font-size:clamp(16px,4vh,28px);margin:0 0 1.5vh;line-height:1.15;color:#0f3552}
-h3{font-size:clamp(12px,1.9vh,17px);margin:1.5vh 0 0.8vh;color:#1c4a68}
-.lead{font-size:clamp(13px,2vh,18px);margin:0 0 1.5vh;line-height:1.4}
-.tag{display:inline-block;background:#fff0a2;color:#7a5c00;
-  padding:0.6vh 2vw;border-radius:99px;
-  font-size:clamp(10px,1.5vh,13px);margin-bottom:1vh;align-self:flex-start}
-.cerita{
-  background:#fff8dc;border-left:5px solid var(--oranye);
-  padding:1.5vh 1.5vw;border-radius:10px;line-height:1.45;
-  margin:1vh 0;font-size:clamp(13px,2vh,19px);
+/* Punggung Buku (Spine) */
+.book-outer::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 20px;
+  background: linear-gradient(to right, #4a3124, #6b4c3a, #4a3124);
+  border-radius: 12px 0 0 12px;
+  box-shadow: inset -2px 0 5px rgba(0,0,0,0.5);
+  z-index: 10;
 }
 
-/* Bagan Perbuatan → Akibat */
-.row{display:flex;gap:1vw;align-items:stretch;flex-wrap:wrap;margin:1.2vh 0}
-.row>*{flex:1;min-width:140px}
-.box{
-  border-radius:14px;padding:1.5vh 1.5vw;
-  color:#fff;font-size:clamp(13px,1.9vh,17px);line-height:1.35;
-}
-.box strong{display:block;font-size:clamp(9px,1.3vh,12px);letter-spacing:.08em;margin-bottom:0.5vh;opacity:.9}
-.blue{background:var(--biru)}
-.orange{background:var(--oranye)}
-.arrow{align-self:center;flex:0 0 auto;font-size:clamp(20px,3vh,30px);text-align:center}
-
-/* Menu */
-.menu-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
-  gap:8px;
-}
-.menu-card{
-  display:flex;gap:0.8vw;align-items:center;text-align:left;
-  background:#fff;border:2.5px solid #cfe3ee;border-radius:14px;
-  padding:1.2vh 1.2vw;
-  font:inherit;color:inherit;cursor:pointer;
-  transition:transform .12s,border-color .12s;width:100%;
-}
-.menu-card:hover{transform:translateY(-2px);border-color:var(--biru)}
-.menu-card .emoji{font-size:clamp(20px,3.5vh,32px);line-height:1;flex-shrink:0}
-.menu-card strong{display:block;font-size:clamp(12px,1.9vh,16px);line-height:1.2}
-.menu-card small{display:block;font-size:clamp(10px,1.5vh,13px);font-weight:600;color:#4d6c82;margin-top:2px;line-height:1.2}
-
-/* Tombol umum */
-button{font-family:inherit;font-weight:800;cursor:pointer}
-.btn{
-  border:2.5px solid #185878;border-radius:12px;background:#fff;color:var(--tinta);
-  padding:1.1vh 1.8vw;font-size:clamp(12px,1.9vh,16px);
-  box-shadow:0 3px 0 #29647744;transition:transform .1s;
-}
-.btn:hover{transform:translateY(-2px)}
-.btn:active{transform:translateY(2px);box-shadow:none}
-.btn.primary{background:#ffe16b}
-.btn:focus-visible,.choice:focus-visible,textarea:focus-visible,.menu-card:focus-visible{
-  outline:4px solid #752bb8;outline-offset:2px}
-.actions{display:flex;gap:1vw;flex-wrap:wrap;margin:1vh 0;align-items:center}
-
-/* Pilihan ganda */
-.pick-grid{display:grid;gap:0.6vh}
-.choice{
-  text-align:left;background:#fff;border:2.5px solid #cfe3ee;border-radius:10px;
-  padding:1vh 1.2vw;font-size:clamp(11px,1.7vh,15px);
-  color:var(--tinta);line-height:1.3;font-weight:700;
-}
-.choice:hover{border-color:var(--biru)}
-.choice.selected{background:#d9f0ff;border-color:var(--biru)}
-.choice.wrong{background:#ffe4da;border-color:#b94c38}
-
-/* Umpan balik */
-.feedback{min-height:0;font-size:clamp(11px,1.7vh,15px);margin:0.8vh 0}
-.feedback.ok{color:#2b7a4b}
-.feedback.no{color:#b94c38}
-
-/* Isian */
-.field{display:block;margin:1vh 0}
-.field span{display:block;font-size:clamp(10px,1.4vh,12px);letter-spacing:.05em;margin-bottom:0.5vh}
-.lbl{background:var(--biru);color:#fff;padding:0.5vh 1vw;border-radius:6px;display:inline-block!important}
-.lbl.oranye{background:var(--oranye)}
-.lbl.netral{background:#5b7f95}
-textarea{
-  width:100%;border:2.5px solid #9dc3d6;border-radius:10px;
-  padding:0.8vh 1vw;font:inherit;font-size:clamp(12px,1.8vh,15px);
-  color:var(--tinta);resize:none;background:#fff;min-height:5.5vh;
+/* Halaman Kertas */
+.book-inner {
+  flex: 1; min-height: 0;
+  background: var(--krem);
+  background-image: 
+    linear-gradient(90deg, rgba(0,0,0,0.03) 0%, transparent 5%, transparent 95%, rgba(0,0,0,0.03) 100%),
+    url('https://www.transparenttextures.com/patterns/cream-paper.png'); /* Tekstur kertas */
+  border-radius: 4px 16px 16px 4px;
+  padding: clamp(16px, 3vh, 32px) clamp(20px, 4vw, 40px);
+  overflow: hidden; 
+  position: relative;
+  display: flex; flex-direction: column;
+  box-shadow: inset 2px 0 8px rgba(0,0,0,0.05);
 }
 
-/* Catatan */
-.note{
-  background:#eef6fb;border-radius:10px;padding:0.8vh 1.2vw;
-  font-size:clamp(11px,1.6vh,14px);font-weight:600;color:#3b5b70;
-  margin:0.8vh 0;line-height:1.4;
+/* Animasi halaman */
+.page-content {
+  animation: fadeIn 0.4s ease-out;
+  height: 100%;
+  display: flex; flex-direction: column;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ==== NAVIGASI ==== */
+.nav {
+  display: flex; gap: 8px; align-items: center; justify-content: space-between;
+  margin-top: 12px; flex-shrink: 0;
+}
+.nav button:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+#indicator {
+  background: rgba(0,0,0,0.05); border-radius: 99px;
+  padding: 0.8vh 2vw; font-size: clamp(12px, 1.8vh, 15px);
+  text-align: center; flex: 1; color: #555;
+  font-family: "Fredoka", sans-serif;
 }
 
-/* Menu grid di mobile — 2 kolom */
-@media(max-width:640px){
-  .wrap{padding:5px 7px}
-  .book{padding:1.4vh 3vw;border-radius:12px}
-  .book::before{width:5px;border-radius:12px 0 0 12px}
-  .menu-grid{grid-template-columns:1fr 1fr;gap:5px}
-  .menu-card{padding:0.9vh 1vw;gap:4px;border-width:2px}
-  .menu-card strong{font-size:11px}
-  .menu-card small{font-size:9px}
-  .nav .btn{padding:0.9vh 2vw;font-size:13px}
-  .arrow{display:none}
-  .row>*{min-width:100%}
+/* ==== TIPOGRAFI & ISI ==== */
+h1 { font-family: "Fredoka", sans-serif; font-size: clamp(24px, 5.5vh, 40px); margin: 0 0 1vh; color: var(--tinta); text-align: center; font-weight: 700; letter-spacing: 1px;}
+h2 { font-family: "Fredoka", sans-serif; font-size: clamp(20px, 4.5vh, 32px); margin: 0 0 1.5vh; color: var(--biru); text-align: center;}
+h3 { font-family: "Nunito", sans-serif; font-size: clamp(14px, 2.2vh, 18px); margin: 2vh 0 1vh; color: var(--oranye); }
+
+.cerita {
+  font-family: "Lora", serif; /* Font buku klasik */
+  font-size: clamp(15px, 2.2vh, 20px); line-height: 1.6;
+  background: #fff; border-left: 4px solid var(--oranye);
+  padding: 2vh 2vw; border-radius: 0 12px 12px 0;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.05);
+  margin: 1vh 0 2vh;
+  text-align: justify;
+}
+
+/* ==== DAFTAR ISI (MENU) ==== */
+.toc-list { display: flex; flex-direction: column; gap: 1vh; overflow-y: auto; padding-right: 5px;}
+.toc-item {
+  display: flex; align-items: center; background: transparent;
+  border: none; border-bottom: 2px dashed #ccc; padding: 1.5vh 1vw;
+  font-family: "Nunito", sans-serif; font-size: clamp(14px, 2.2vh, 18px);
+  color: var(--tinta); cursor: pointer; text-align: left; width: 100%;
+  transition: all 0.2s; font-weight: 700;
+}
+.toc-item:hover { background: rgba(0,0,0,0.03); padding-left: 2vw; color: var(--biru); }
+.toc-item .emoji { font-size: clamp(20px, 3vh, 28px); margin-right: 15px; }
+.toc-item .title { flex: 1; }
+.toc-item small { display: block; font-size: 0.75em; color: #777; font-weight: 600; margin-top: 3px;}
+
+/* ==== BAGAN PERBUATAN -> AKIBAT ==== */
+.row { display: flex; gap: 1.5vw; align-items: stretch; flex-wrap: wrap; margin: 1.5vh 0; }
+.row > * { flex: 1; min-width: 140px; }
+.box {
+  border-radius: 12px; padding: 2vh 1.5vw; color: #fff;
+  font-size: clamp(13px, 1.9vh, 17px); line-height: 1.4;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.box strong { font-family: "Fredoka", sans-serif; font-size: clamp(10px, 1.4vh, 13px); letter-spacing: 1px; margin-bottom: 0.5vh; opacity: 0.9;}
+.blue { background: linear-gradient(135deg, #1e6b9e, #154f76); }
+.orange { background: linear-gradient(135deg, #d96c1b, #b85512); }
+.arrow { align-self: center; flex: 0 0 auto; font-size: clamp(20px, 3vh, 30px); color: #aaa; font-weight: 900;}
+
+/* ==== TOMBOL & PILIHAN ==== */
+button { font-family: inherit; cursor: pointer; }
+.btn {
+  border: none; border-radius: 8px; background: #e0e0e0; color: #333;
+  padding: 1.2vh 2vw; font-size: clamp(13px, 1.9vh, 16px); font-weight: 800;
+  box-shadow: 0 3px 0 #b0b0b0; transition: transform 0.1s, box-shadow 0.1s;
+}
+.btn.primary { background: #f1c40f; color: #5d4001; box-shadow: 0 3px 0 #c19a00; }
+.btn:active { transform: translateY(3px); box-shadow: none; }
+
+.actions { display: flex; gap: 1vw; flex-wrap: wrap; margin: 1vh 0; align-items: center; }
+
+.pick-grid { display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh;}
+.choice {
+  text-align: left; background: #fff; border: 2px solid #e0e0e0; border-radius: 10px;
+  padding: 1.5vh 1.5vw; font-size: clamp(13px, 2vh, 16px); color: var(--tinta);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: all 0.2s; font-weight: 600;
+}
+.choice:hover { border-color: var(--biru); background: #f0f8ff; transform: translateX(5px);}
+.choice.selected { border-color: var(--biru); background: #e3f2fd; font-weight: 800; }
+.choice.wrong { border-color: #e74c3c; background: #fdeaea; }
+
+.feedback { font-size: clamp(12px, 1.8vh, 16px); font-weight: 700; min-height: 20px; margin: 0.5vh 0; text-align: center;}
+.feedback.ok { color: #27ae60; } .feedback.no { color: #e74c3c; }
+
+/* ==== FORM ISIAN ==== */
+.field { display: block; margin: 1.5vh 0; }
+.lbl { display: inline-block; font-size: clamp(11px, 1.5vh, 13px); font-weight: 800; padding: 0.5vh 1vw; border-radius: 6px; margin-bottom: 0.5vh;}
+.lbl.b { background: #e3f2fd; color: var(--biru); }
+.lbl.o { background: #fdf0e6; color: var(--oranye); }
+textarea {
+  width: 100%; border: 2px solid #ccc; border-radius: 8px;
+  padding: 1.5vh 1vw; font-family: "Nunito", sans-serif; font-size: clamp(13px, 1.9vh, 16px);
+  color: var(--tinta); resize: none; background: #fff; transition: border 0.2s;
+}
+textarea:focus { outline: none; border-color: var(--biru); }
+
+.note { font-size: clamp(12px, 1.7vh, 15px); color: #666; font-style: italic; margin: 1vh 0;}
+
+/* ==== LAYAR KECIL ==== */
+@media(max-width: 640px) {
+  body { padding: 5px; }
+  .book-outer { padding: 4px 4px 4px 12px; }
+  .book-inner { padding: 15px 12px; }
+  .toc-item { padding: 1vh 1vw; }
+  .arrow { display: none; }
+  .row > * { min-width: 100%; }
+  .choice { padding: 1vh 1vw; }
 }
 </style>
 </head>
 <body>
 <main class="wrap">
-  <div class="book" id="book"></div>
+  <div class="book-outer">
+    <div class="book-inner" id="book">
+      <!-- Konten akan dimuat di sini oleh JS -->
+    </div>
+  </div>
   <nav class="nav">
     <button class="btn" id="prev">← Kembali</button>
-    <span id="indicator">Pilih dongeng</span>
+    <span id="indicator">Daftar Isi</span>
     <button class="btn primary" id="next">Lanjut →</button>
   </nav>
 </main>
+
 <script src="content.js"></script>
 <script>
 const $ = s => document.querySelector(s);
-const state = { screen:'menu', d:0, t:0, answers:{} };
+const state = { screen: 'menu', d: 0, t: 0, answers: {} };
 
-/* ---------- AUDIO ---------- */
-function speak(text){
-  if(!('speechSynthesis' in window) || !text) return;
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'id-ID'; u.rate = 0.9; u.pitch = 1.05;
-  const v = speechSynthesis.getVoices().find(x => x.lang.toLowerCase().startsWith('id'));
-  if(v) u.voice = v;
-  speechSynthesis.speak(u);
-}
-function playAudio(t){
-  if(t.audio){ new Audio(t.audio).play().catch(() => speak(t.narasi || t.cerita)); }
-  else { speak(t.narasi || t.cerita); }
-}
-if('speechSynthesis' in window){ speechSynthesis.onvoiceschanged = () => {}; }
-
-/* ---------- RENDER ---------- */
-function render(){
+function render() {
   const b = $('#book');
-  if(state.screen === 'menu')       b.innerHTML = viewMenu();
-  else if(state.screen === 'tahap') b.innerHTML = viewTahap();
-  else                              b.innerHTML = viewSelesai();
+  const content = document.createElement('div');
+  content.className = 'page-content';
+
+  if (state.screen === 'menu') content.innerHTML = viewMenu();
+  else if (state.screen === 'tahap') content.innerHTML = viewTahap();
+  else content.innerHTML = viewSelesai();
+
+  b.innerHTML = '';
+  b.appendChild(content);
   bind();
   updateNav();
 }
 
-function viewMenu(){
+function viewMenu() {
   return `
     <h1>Dongeng Nusantara</h1>
-    <p class="lead" style="text-align:center">Belajar <b>sebab</b> dan <b>akibat</b> lewat dongeng. Pilih satu dongeng:</p>
-    <div class="menu-grid">
-      ${DONGENG.map((d,i)=>`
-        <button class="menu-card" data-open="${i}">
-          <span class="emoji" aria-hidden="true">${d.emoji}</span>
-          <span><strong>${d.judul}</strong><small>${d.pesan}</small></span>
-        </button>`).join('')}
+    <p style="text-align:center; font-style:italic; color:#777; margin-bottom:2vh;">Belajar Sebab & Akibat</p>
+    <h3>DAFTAR ISI</h3>
+    <div class="toc-list">
+      ${DONGENG.map((d, i) => `
+        <button class="toc-item" data-open="${i}">
+          <span class="emoji">${d.emoji}</span>
+          <span class="title">${d.judul}<small>${d.pesan}</small></span>
+        </button>
+      `).join('')}
     </div>`;
 }
 
-function viewTahap(){
+function viewTahap() {
   const d = DONGENG[state.d], t = d.tahap[state.t];
   const key = state.d + '-' + state.t;
   const a = state.answers[key] || {};
@@ -240,173 +243,118 @@ function viewTahap(){
   const bagan = (t.tipe === 'modeling')
     ? `<div class="row">
          <div class="box blue"><strong>PERBUATAN</strong>${t.perbuatan}</div>
-         <span class="arrow" aria-hidden="true">➜</span>
+         <span class="arrow">➜</span>
          <div class="box orange"><strong>AKIBAT</strong>${t.akibat}</div>
        </div>`
     : `<div class="row">
          <div class="box blue"><strong>PERBUATAN</strong>${a.perbuatan || '—'}</div>
-         <span class="arrow" aria-hidden="true">➜</span>
+         <span class="arrow">➜</span>
          <div class="box orange"><strong>AKIBAT</strong>${a.akibat || '—'}</div>
        </div>`;
 
   let interaksi = '';
-  if(t.tipe === 'pilihan'){
+  if (t.tipe === 'pilihan') {
     const benarP = a.perbuatan === t.pilihan.perbuatan[t.jawaban.perbuatan];
     const benarA = a.akibat === t.pilihan.akibat[t.jawaban.akibat];
     const lengkap = a.perbuatan && a.akibat;
     const semuaBenar = benarP && benarA;
 
     const tombol = (arr, jenis, jawab) => arr.map(p => {
-      const cls = a[jenis] === p ? 'selected'
-                : (a[jenis] && a[jenis] !== arr[jawab] ? 'wrong' : '');
+      const cls = a[jenis] === p ? 'selected' : (a[jenis] && a[jenis] !== arr[jawab] ? 'wrong' : '');
       return `<button class="choice ${cls}" data-jenis="${jenis}" data-isi="${p}">${p}</button>`;
     }).join('');
 
     interaksi = `
-      <h3>1. Pilih PERBUATAN — apa yang dilakukan tokoh?</h3>
-      <div class="pick-grid">${tombol(t.pilihan.perbuatan,'perbuatan',t.jawaban.perbuatan)}</div>
-      <h3>2. Pilih AKIBAT — apa yang terjadi setelahnya?</h3>
-      <div class="pick-grid">${tombol(t.pilihan.akibat,'akibat',t.jawaban.akibat)}</div>
+      <h3>Apa PERBUATAN tokoh?</h3>
+      <div class="pick-grid">${tombol(t.pilihan.perbuatan, 'perbuatan', t.jawaban.perbuatan)}</div>
+      <h3>Apa AKIBATNYA?</h3>
+      <div class="pick-grid">${tombol(t.pilihan.akibat, 'akibat', t.jawaban.akibat)}</div>
       <p class="feedback ${lengkap ? (semuaBenar ? 'ok' : 'no') : ''}">
-        ${!lengkap ? '' : semuaBenar
-          ? '✅ Hebat! Perbuatan dan akibatnya sudah tepat.'
-          : '💡 Belum tepat. Periksa lagi kotak yang masih merah.'}
+        ${!lengkap ? '' : semuaBenar ? '✅ Tepat sekali!' : '💡 Belum tepat, coba lagi.'}
       </p>`;
-
-    if(t.petunjuk){
-      interaksi += `<div class="actions">
-        <button class="btn" data-petunjuk>💡 Petunjuk</button></div>
-        <div id="hint-box"></div>`;
-    }
   }
 
-  if(t.tipe === 'isian'){
+  if (t.tipe === 'isian') {
     interaksi = `
-      <label class="field"><span class="lbl">PERBUATAN</span>
-        <textarea data-isian="perbuatan" rows="2"
-          placeholder="Apa yang dilakukan tokoh?">${a.perbuatan || ''}</textarea></label>
-      <label class="field"><span class="lbl oranye">AKIBAT</span>
-        <textarea data-isian="akibat" rows="2"
-          placeholder="Apa yang terjadi setelahnya?">${a.akibat || ''}</textarea></label>
-      <label class="field"><span class="lbl netral">PESAN DONGENG (satu kalimat)</span>
-        <textarea data-isian="pesan" rows="2"
-          placeholder="Kita tidak boleh ...">${a.pesan || ''}</textarea></label>
-      <p class="note">Tulis dengan kata-katamu sendiri. Tidak perlu menyalin cerita.</p>`;
+      <label class="field"><span class="lbl b">PERBUATAN</span>
+        <textarea data-isian="perbuatan" rows="2" placeholder="Apa yang dilakukan tokoh?">${a.perbuatan || ''}</textarea></label>
+      <label class="field"><span class="lbl o">AKIBAT</span>
+        <textarea data-isian="akibat" rows="2" placeholder="Apa yang terjadi?">${a.akibat || ''}</textarea></label>
+      <label class="field"><span class="lbl" style="background:#eee;color:#333">PESAN DONGENG</span>
+        <textarea data-isian="pesan" rows="2" placeholder="Kita tidak boleh ...">${a.pesan || ''}</textarea></label>`;
   }
 
   return `
-    <span class="tag">${t.judul}</span>
+    <span style="font-size:12px; font-weight:800; color:var(--oranye); letter-spacing:1px; text-transform:uppercase;">${t.judul}</span>
     <h2>${d.judul}</h2>
     <p class="cerita">${t.cerita}</p>
-    <div class="actions">
-      <button class="btn primary" data-dengar>🔊 Dengarkan</button>
-    </div>
-    ${t.tipe === 'modeling'
-      ? `<p class="note">Perhatikan bagan di bawah. Kotak <b>biru</b> = perbuatan, kotak <b>oranye</b> = akibat.</p>`
-      : ''}
     ${bagan}
     ${interaksi}`;
 }
 
-function viewSelesai(){
-  const d = DONGENG[state.d];
-  const key = state.d + '-3';
-  const a = state.answers[key] || {};
+function viewSelesai() {
+  const d = DONGENG[state.d]; const key = state.d + '-3'; const a = state.answers[key] || {};
   return `
-    <h2>Selesai! 🎉</h2>
-    <p class="lead">Kamu sudah menyelesaikan dongeng <b>${d.judul}</b>.</p>
+    <h2>Tamatt! 🎉</h2>
+    <p style="text-align:center">Kamu menyelesaikan <b>${d.judul}</b>.</p>
     <div class="row">
       <div class="box blue"><strong>PERBUATAN</strong>${a.perbuatan || '—'}</div>
-      <span class="arrow" aria-hidden="true">➜</span>
+      <span class="arrow">➜</span>
       <div class="box orange"><strong>AKIBAT</strong>${a.akibat || '—'}</div>
     </div>
-    <h3>Pesan dongeng</h3>
-    <p class="cerita">${a.pesan || d.pesan}</p>
-    <div class="actions">
-      <button class="btn primary" data-menu>📚 Pilih dongeng lain</button>
+    <h3>Pesan Dongeng</h3>
+    <p class="cerita" style="border-color:var(--biru)">${a.pesan || d.pesan}</p>
+    <div class="actions" style="justify-content:center">
+      <button class="btn primary" data-menu>📖 Kembali ke Daftar Isi</button>
     </div>`;
 }
 
-/* ---------- EVENTS ---------- */
-function bind(){
+function bind() {
   document.querySelectorAll('[data-open]').forEach(el => {
-    el.onclick = () => {
-      state.d = +el.dataset.open;
-      state.t = 0;
-      state.screen = 'tahap';
-      render();
-    };
+    el.onclick = () => { state.d = +el.dataset.open; state.t = 0; state.screen = 'tahap'; render(); };
   });
-
-  const dengar = $('[data-dengar]');
-  if(dengar) dengar.onclick = () => playAudio(DONGENG[state.d].tahap[state.t]);
-
   document.querySelectorAll('[data-jenis]').forEach(el => {
-    el.onclick = () => {
-      const key = state.d + '-' + state.t;
-      state.answers[key] = state.answers[key] || {};
-      state.answers[key][el.dataset.jenis] = el.dataset.isi;
-      render();
+    el.onclick = () => { 
+      const key = state.d + '-' + state.t; state.answers[key] = state.answers[key] || {}; 
+      state.answers[key][el.dataset.jenis] = el.dataset.isi; render(); 
     };
   });
-
   document.querySelectorAll('[data-isian]').forEach(el => {
-    el.oninput = () => {
-      const key = state.d + '-' + state.t;
-      state.answers[key] = state.answers[key] || {};
-      state.answers[key][el.dataset.isian] = el.value;
+    el.oninput = () => { 
+      const key = state.d + '-' + state.t; state.answers[key] = state.answers[key] || {}; 
+      state.answers[key][el.dataset.isian] = el.value; 
     };
   });
-
-  const petunjuk = $('[data-petunjuk]');
-  if(petunjuk){
-    let n = 0;
-    petunjuk.onclick = () => {
-      const t = DONGENG[state.d].tahap[state.t];
-      const box = $('#hint-box');
-      box.innerHTML = `<p class="note">(${Math.min(n+1, t.petunjuk.length)}) ${t.petunjuk[Math.min(n, t.petunjuk.length-1)]}</p>`;
-      n = Math.min(n + 1, t.petunjuk.length);
-    };
-  }
-
   const menu = $('[data-menu]');
-  if(menu) menu.onclick = () => { state.screen = 'menu'; render(); };
+  if (menu) menu.onclick = () => { state.screen = 'menu'; render(); };
 }
 
-/* ---------- NAVIGASI ---------- */
-function updateNav(){
+function updateNav() {
   const prev = $('#prev'), next = $('#next'), ind = $('#indicator');
-  if(state.screen === 'menu'){
-    prev.disabled = true; next.disabled = true;
-    ind.textContent = 'Pilih dongeng';
-  } else if(state.screen === 'tahap'){
-    const d = DONGENG[state.d];
-    prev.disabled = false; next.disabled = false;
-    ind.textContent = `Tahap ${state.t+1} dari ${d.tahap.length}`;
+  if (state.screen === 'menu') {
+    prev.disabled = true; next.disabled = true; ind.textContent = 'Daftar Isi';
+  } else if (state.screen === 'tahap') {
+    const d = DONGENG[state.d]; prev.disabled = false; next.disabled = false; 
+    ind.textContent = `Halaman ${state.t + 1} / ${d.tahap.length}`;
     next.textContent = state.t === d.tahap.length - 1 ? 'Selesai ✓' : 'Lanjut →';
   } else {
-    prev.disabled = false; next.disabled = true;
-    ind.textContent = 'Selesai';
-    next.textContent = 'Lanjut →';
+    prev.disabled = false; next.disabled = true; ind.textContent = 'Selesai'; next.textContent = 'Lanjut →';
   }
 }
 
 $('#prev').onclick = () => {
-  if(state.screen === 'tahap'){
-    if(state.t > 0){ state.t--; }
-    else { state.screen = 'menu'; }
-  } else if(state.screen === 'selesai'){
-    state.screen = 'tahap';
-    state.t = DONGENG[state.d].tahap.length - 1;
+  if (state.screen === 'tahap') {
+    if (state.t > 0) state.t--; else state.screen = 'menu';
+  } else if (state.screen === 'selesai') {
+    state.screen = 'tahap'; state.t = DONGENG[state.d].tahap.length - 1;
   }
   render();
 };
 
 $('#next').onclick = () => {
-  if(state.screen === 'tahap'){
+  if (state.screen === 'tahap') {
     const d = DONGENG[state.d];
-    if(state.t < d.tahap.length - 1){ state.t++; }
-    else { state.screen = 'selesai'; }
+    if (state.t < d.tahap.length - 1) state.t++; else state.screen = 'selesai';
     render();
   }
 };
