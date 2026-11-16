@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dongeng Nusantara — Sebab &amp; Akibat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--biru:#1475c8;--oranye:#e97816;--krem:#fffdf1;--tinta:#173c58}
+*{box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{
+  margin:0;
+  font-family:"Nunito",system-ui,sans-serif;
+  background:linear-gradient(160deg,#94d9f3,#c9edff 60%,#e8f7d8);
+  background-attachment:fixed;
+  color:var(--tinta);
+  font-size:18px;font-weight:700;
+  display:flex;flex-direction:column;
+  height:100vh;
+}
+.wrap{
+  flex:1;min-height:0;
+  max-width:920px;width:100%;
+  margin:0 auto;padding:8px 12px;
+  display:flex;flex-direction:column;
+}
+
+/* ============================================
+   BUKU — UKURAN TETAP, TIDAK BISA DI-SCROLL
+   ============================================ */
+.book{
+  flex:1;min-height:0;
+  overflow:hidden;              /* kunci: tidak ada scroll */
+  background:var(--krem);
+  border-radius:18px;
+  padding:clamp(12px,2.4vh,24px) clamp(16px,3vw,30px);
+  box-shadow:
+    0 8px 26px #16456a22,
+    inset -10px 0 22px -12px #00000020;
+  border:1px solid #e8dfc4;
+  position:relative;
+  display:flex;flex-direction:column;
+}
+/* Efek punggung buku di kiri */
+.book::before{
+  content:"";
+  position:absolute;top:0;left:0;bottom:0;
+  width:8px;
+  background:linear-gradient(to right,#cdbf90,transparent);
+  border-radius:18px 0 0 18px;
+  pointer-events:none;
+}
+
+/* ============================================
+   NAVIGASI — SELALU DI BAWAH, UKURAN TETAP
+   ============================================ */
+.nav{
+  display:flex;gap:8px;align-items:center;justify-content:space-between;
+  margin-top:8px;flex-shrink:0;
+}
+.nav button:disabled{opacity:.4;cursor:not-allowed;transform:none}
+#indicator{
+  background:#fff;border-radius:99px;
+  padding:0.8vh 2vw;
+  font-size:clamp(11px,1.6vh,14px);
+  text-align:center;flex:1;min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+/* ============================================
+   SEMUA TEKS MENYESUAIKAN TINGGI LAYAR (vh)
+   ============================================ */
+h1{font-size:clamp(20px,5vh,36px);margin:0 0 1vh;line-height:1.1;color:#0f3552;text-align:center}
+h2{font-size:clamp(16px,4vh,28px);margin:0 0 1.5vh;line-height:1.15;color:#0f3552}
+h3{font-size:clamp(12px,1.9vh,17px);margin:1.5vh 0 0.8vh;color:#1c4a68}
+.lead{font-size:clamp(13px,2vh,18px);margin:0 0 1.5vh;line-height:1.4}
+.tag{display:inline-block;background:#fff0a2;color:#7a5c00;
+  padding:0.6vh 2vw;border-radius:99px;
+  font-size:clamp(10px,1.5vh,13px);margin-bottom:1vh;align-self:flex-start}
+.cerita{
+  background:#fff8dc;border-left:5px solid var(--oranye);
+  padding:1.5vh 1.5vw;border-radius:10px;line-height:1.45;
+  margin:1vh 0;font-size:clamp(13px,2vh,19px);
+}
+
+/* Bagan Perbuatan → Akibat */
+.row{display:flex;gap:1vw;align-items:stretch;flex-wrap:wrap;margin:1.2vh 0}
+.row>*{flex:1;min-width:140px}
+.box{
+  border-radius:14px;padding:1.5vh 1.5vw;
+  color:#fff;font-size:clamp(13px,1.9vh,17px);line-height:1.35;
+}
+.box strong{display:block;font-size:clamp(9px,1.3vh,12px);letter-spacing:.08em;margin-bottom:0.5vh;opacity:.9}
+.blue{background:var(--biru)}
+.orange{background:var(--oranye)}
+.arrow{align-self:center;flex:0 0 auto;font-size:clamp(20px,3vh,30px);text-align:center}
+
+/* Menu */
+.menu-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+  gap:8px;
+}
+.menu-card{
+  display:flex;gap:0.8vw;align-items:center;text-align:left;
+  background:#fff;border:2.5px solid #cfe3ee;border-radius:14px;
+  padding:1.2vh 1.2vw;
+  font:inherit;color:inherit;cursor:pointer;
+  transition:transform .12s,border-color .12s;width:100%;
+}
+.menu-card:hover{transform:translateY(-2px);border-color:var(--biru)}
+.menu-card .emoji{font-size:clamp(20px,3.5vh,32px);line-height:1;flex-shrink:0}
+.menu-card strong{display:block;font-size:clamp(12px,1.9vh,16px);line-height:1.2}
+.menu-card small{display:block;font-size:clamp(10px,1.5vh,13px);font-weight:600;color:#4d6c82;margin-top:2px;line-height:1.2}
+
+/* Tombol umum */
+button{font-family:inherit;font-weight:800;cursor:pointer}
+.btn{
+  border:2.5px solid #185878;border-radius:12px;background:#fff;color:var(--tinta);
+  padding:1.1vh 1.8vw;font-size:clamp(12px,1.9vh,16px);
+  box-shadow:0 3px 0 #29647744;transition:transform .1s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(2px);box-shadow:none}
+.btn.primary{background:#ffe16b}
+.btn:focus-visible,.choice:focus-visible,textarea:focus-visible,.menu-card:focus-visible{
+  outline:4px solid #752bb8;outline-offset:2px}
+.actions{display:flex;gap:1vw;flex-wrap:wrap;margin:1vh 0;align-items:center}
+
+/* Pilihan ganda */
+.pick-grid{display:grid;gap:0.6vh}
+.choice{
+  text-align:left;background:#fff;border:2.5px solid #cfe3ee;border-radius:10px;
+  padding:1vh 1.2vw;font-size:clamp(11px,1.7vh,15px);
+  color:var(--tinta);line-height:1.3;font-weight:700;
+}
+.choice:hover{border-color:var(--biru)}
+.choice.selected{background:#d9f0ff;border-color:var(--biru)}
+.choice.wrong{background:#ffe4da;border-color:#b94c38}
+
+/* Umpan balik */
+.feedback{min-height:0;font-size:clamp(11px,1.7vh,15px);margin:0.8vh 0}
+.feedback.ok{color:#2b7a4b}
+.feedback.no{color:#b94c38}
+
+/* Isian */
+.field{display:block;margin:1vh 0}
+.field span{display:block;font-size:clamp(10px,1.4vh,12px);letter-spacing:.05em;margin-bottom:0.5vh}
+.lbl{background:var(--biru);color:#fff;padding:0.5vh 1vw;border-radius:6px;display:inline-block!important}
+.lbl.oranye{background:var(--oranye)}
+.lbl.netral{background:#5b7f95}
+textarea{
+  width:100%;border:2.5px solid #9dc3d6;border-radius:10px;
+  padding:0.8vh 1vw;font:inherit;font-size:clamp(12px,1.8vh,15px);
+  color:var(--tinta);resize:none;background:#fff;min-height:5.5vh;
+}
+
+/* Catatan */
+.note{
+  background:#eef6fb;border-radius:10px;padding:0.8vh 1.2vw;
+  font-size:clamp(11px,1.6vh,14px);font-weight:600;color:#3b5b70;
+  margin:0.8vh 0;line-height:1.4;
+}
+
+/* Menu grid di mobile — 2 kolom */
+@media(max-width:640px){
+  .wrap{padding:5px 7px}
+  .book{padding:1.4vh 3vw;border-radius:12px}
+  .book::before{width:5px;border-radius:12px 0 0 12px}
+  .menu-grid{grid-template-columns:1fr 1fr;gap:5px}
+  .menu-card{padding:0.9vh 1vw;gap:4px;border-width:2px}
+  .menu-card strong{font-size:11px}
+  .menu-card small{font-size:9px}
+  .nav .btn{padding:0.9vh 2vw;font-size:13px}
+  .arrow{display:none}
+  .row>*{min-width:100%}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="book" id="book"></div>
+  <nav class="nav">
+    <button class="btn" id="prev">← Kembali</button>
+    <span id="indicator">Pilih dongeng</span>
+    <button class="btn primary" id="next">Lanjut →</button>
+  </nav>
+</main>
+<script src="content.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const state = { screen:'menu', d:0, t:0, answers:{} };
+
+/* ---------- AUDIO ---------- */
+function speak(text){
+  if(!('speechSynthesis' in window) || !text) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'id-ID'; u.rate = 0.9; u.pitch = 1.05;
+  const v = speechSynthesis.getVoices().find(x => x.lang.toLowerCase().startsWith('id'));
+  if(v) u.voice = v;
+  speechSynthesis.speak(u);
+}
+function playAudio(t){
+  if(t.audio){ new Audio(t.audio).play().catch(() => speak(t.narasi || t.cerita)); }
+  else { speak(t.narasi || t.cerita); }
+}
+if('speechSynthesis' in window){ speechSynthesis.onvoiceschanged = () => {}; }
+
+/* ---------- RENDER ---------- */
+function render(){
+  const b = $('#book');
+  if(state.screen === 'menu')       b.innerHTML = viewMenu();
+  else if(state.screen === 'tahap') b.innerHTML = viewTahap();
+  else                              b.innerHTML = viewSelesai();
+  bind();
+  updateNav();
+}
+
+function viewMenu(){
+  return `
+    <h1>Dongeng Nusantara</h1>
+    <p class="lead" style="text-align:center">Belajar <b>sebab</b> dan <b>akibat</b> lewat dongeng. Pilih satu dongeng:</p>
+    <div class="menu-grid">
+      ${DONGENG.map((d,i)=>`
+        <button class="menu-card" data-open="${i}">
+          <span class="emoji" aria-hidden="true">${d.emoji}</span>
+          <span><strong>${d.judul}</strong><small>${d.pesan}</small></span>
+        </button>`).join('')}
+    </div>`;
+}
+
+function viewTahap(){
+  const d = DONGENG[state.d], t = d.tahap[state.t];
+  const key = state.d + '-' + state.t;
+  const a = state.answers[key] || {};
+
+  const bagan = (t.tipe === 'modeling')
+    ? `<div class="row">
+         <div class="box blue"><strong>PERBUATAN</strong>${t.perbuatan}</div>
+         <span class="arrow" aria-hidden="true">➜</span>
+         <div class="box orange"><strong>AKIBAT</strong>${t.akibat}</div>
+       </div>`
+    : `<div class="row">
+         <div class="box blue"><strong>PERBUATAN</strong>${a.perbuatan || '—'}</div>
+         <span class="arrow" aria-hidden="true">➜</span>
+         <div class="box orange"><strong>AKIBAT</strong>${a.akibat || '—'}</div>
+       </div>`;
+
+  let interaksi = '';
+  if(t.tipe === 'pilihan'){
+    const benarP = a.perbuatan === t.pilihan.perbuatan[t.jawaban.perbuatan];
+    const benarA = a.akibat === t.pilihan.akibat[t.jawaban.akibat];
+    const lengkap = a.perbuatan && a.akibat;
+    const semuaBenar = benarP && benarA;
+
+    const tombol = (arr, jenis, jawab) => arr.map(p => {
+      const cls = a[jenis] === p ? 'selected'
+                : (a[jenis] && a[jenis] !== arr[jawab] ? 'wrong' : '');
+      return `<button class="choice ${cls}" data-jenis="${jenis}" data-isi="${p}">${p}</button>`;
+    }).join('');
+
+    interaksi = `
+      <h3>1. Pilih PERBUATAN — apa yang dilakukan tokoh?</h3>
+      <div class="pick-grid">${tombol(t.pilihan.perbuatan,'perbuatan',t.jawaban.perbuatan)}</div>
+      <h3>2. Pilih AKIBAT — apa yang terjadi setelahnya?</h3>
+      <div class="pick-grid">${tombol(t.pilihan.akibat,'akibat',t.jawaban.akibat)}</div>
+      <p class="feedback ${lengkap ? (semuaBenar ? 'ok' : 'no') : ''}">
+        ${!lengkap ? '' : semuaBenar
+          ? '✅ Hebat! Perbuatan dan akibatnya sudah tepat.'
+          : '💡 Belum tepat. Periksa lagi kotak yang masih merah.'}
+      </p>`;
+
+    if(t.petunjuk){
+      interaksi += `<div class="actions">
+        <button class="btn" data-petunjuk>💡 Petunjuk</button></div>
+        <div id="hint-box"></div>`;
+    }
+  }
+
+  if(t.tipe === 'isian'){
+    interaksi = `
+      <label class="field"><span class="lbl">PERBUATAN</span>
+        <textarea data-isian="perbuatan" rows="2"
+          placeholder="Apa yang dilakukan tokoh?">${a.perbuatan || ''}</textarea></label>
+      <label class="field"><span class="lbl oranye">AKIBAT</span>
+        <textarea data-isian="akibat" rows="2"
+          placeholder="Apa yang terjadi setelahnya?">${a.akibat || ''}</textarea></label>
+      <label class="field"><span class="lbl netral">PESAN DONGENG (satu kalimat)</span>
+        <textarea data-isian="pesan" rows="2"
+          placeholder="Kita tidak boleh ...">${a.pesan || ''}</textarea></label>
+      <p class="note">Tulis dengan kata-katamu sendiri. Tidak perlu menyalin cerita.</p>`;
+  }
+
+  return `
+    <span class="tag">${t.judul}</span>
+    <h2>${d.judul}</h2>
+    <p class="cerita">${t.cerita}</p>
+    <div class="actions">
+      <button class="btn primary" data-dengar>🔊 Dengarkan</button>
+    </div>
+    ${t.tipe === 'modeling'
+      ? `<p class="note">Perhatikan bagan di bawah. Kotak <b>biru</b> = perbuatan, kotak <b>oranye</b> = akibat.</p>`
+      : ''}
+    ${bagan}
+    ${interaksi}`;
+}
+
+function viewSelesai(){
+  const d = DONGENG[state.d];
+  const key = state.d + '-3';
+  const a = state.answers[key] || {};
+  return `
+    <h2>Selesai! 🎉</h2>
+    <p class="lead">Kamu sudah menyelesaikan dongeng <b>${d.judul}</b>.</p>
+    <div class="row">
+      <div class="box blue"><strong>PERBUATAN</strong>${a.perbuatan || '—'}</div>
+      <span class="arrow" aria-hidden="true">➜</span>
+      <div class="box orange"><strong>AKIBAT</strong>${a.akibat || '—'}</div>
+    </div>
+    <h3>Pesan dongeng</h3>
+    <p class="cerita">${a.pesan || d.pesan}</p>
+    <div class="actions">
+      <button class="btn primary" data-menu>📚 Pilih dongeng lain</button>
+    </div>`;
+}
+
+/* ---------- EVENTS ---------- */
+function bind(){
+  document.querySelectorAll('[data-open]').forEach(el => {
+    el.onclick = () => {
+      state.d = +el.dataset.open;
+      state.t = 0;
+      state.screen = 'tahap';
+      render();
+    };
+  });
+
+  const dengar = $('[data-dengar]');
+  if(dengar) dengar.onclick = () => playAudio(DONGENG[state.d].tahap[state.t]);
+
+  document.querySelectorAll('[data-jenis]').forEach(el => {
+    el.onclick = () => {
+      const key = state.d + '-' + state.t;
+      state.answers[key] = state.answers[key] || {};
+      state.answers[key][el.dataset.jenis] = el.dataset.isi;
+      render();
+    };
+  });
+
+  document.querySelectorAll('[data-isian]').forEach(el => {
+    el.oninput = () => {
+      const key = state.d + '-' + state.t;
+      state.answers[key] = state.answers[key] || {};
+      state.answers[key][el.dataset.isian] = el.value;
+    };
+  });
+
+  const petunjuk = $('[data-petunjuk]');
+  if(petunjuk){
+    let n = 0;
+    petunjuk.onclick = () => {
+      const t = DONGENG[state.d].tahap[state.t];
+      const box = $('#hint-box');
+      box.innerHTML = `<p class="note">(${Math.min(n+1, t.petunjuk.length)}) ${t.petunjuk[Math.min(n, t.petunjuk.length-1)]}</p>`;
+      n = Math.min(n + 1, t.petunjuk.length);
+    };
+  }
+
+  const menu = $('[data-menu]');
+  if(menu) menu.onclick = () => { state.screen = 'menu'; render(); };
+}
+
+/* ---------- NAVIGASI ---------- */
+function updateNav(){
+  const prev = $('#prev'), next = $('#next'), ind = $('#indicator');
+  if(state.screen === 'menu'){
+    prev.disabled = true; next.disabled = true;
+    ind.textContent = 'Pilih dongeng';
+  } else if(state.screen === 'tahap'){
+    const d = DONGENG[state.d];
+    prev.disabled = false; next.disabled = false;
+    ind.textContent = `Tahap ${state.t+1} dari ${d.tahap.length}`;
+    next.textContent = state.t === d.tahap.length - 1 ? 'Selesai ✓' : 'Lanjut →';
+  } else {
+    prev.disabled = false; next.disabled = true;
+    ind.textContent = 'Selesai';
+    next.textContent = 'Lanjut →';
+  }
+}
+
+$('#prev').onclick = () => {
+  if(state.screen === 'tahap'){
+    if(state.t > 0){ state.t--; }
+    else { state.screen = 'menu'; }
+  } else if(state.screen === 'selesai'){
+    state.screen = 'tahap';
+    state.t = DONGENG[state.d].tahap.length - 1;
+  }
+  render();
+};
+
+$('#next').onclick = () => {
+  if(state.screen === 'tahap'){
+    const d = DONGENG[state.d];
+    if(state.t < d.tahap.length - 1){ state.t++; }
+    else { state.screen = 'selesai'; }
+    render();
+  }
+};
+
+render();
+</script>
+</body>
+</html>
